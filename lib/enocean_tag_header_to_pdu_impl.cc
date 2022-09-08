@@ -179,7 +179,7 @@ namespace gr {
               }
               d_packet_length = uint8_t(bytes);
               consumed=d_tags[0].offset-abs_start+8;
-              d_data_to_copy=d_packet_length*8-8;  //the data should be in bytes but we have bits
+              d_data_to_copy=d_packet_length*8;  //the data should be in bytes but we have bits
           
               d_in_packet = true;
         }

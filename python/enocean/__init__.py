@@ -20,4 +20,5 @@ except ModuleNotFoundError:
     pass
 
 # import any pure python here
+from .encoean_packat_parser import encoean_packat_parser
 #

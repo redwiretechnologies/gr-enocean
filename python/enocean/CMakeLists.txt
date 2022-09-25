@@ -22,7 +22,8 @@ add_subdirectory(bindings)
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    encoean_packat_parser.py DESTINATION ${GR_PYTHON_DIR}/gnuradio/enocean
+    enocean_packet_parser.py
+    enocean_packet_test_generator.py DESTINATION ${GR_PYTHON_DIR}/gnuradio/enocean
 )
 
 ########################################################################
@@ -40,4 +41,5 @@ add_custom_target(
           ${CMAKE_BINARY_DIR}/test_modules/gnuradio/enocean/
 )
 GR_ADD_TEST(qa_enocean_tag_header_to_pdu ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_enocean_tag_header_to_pdu.py)
-GR_ADD_TEST(qa_encoean_packat_parser ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_encoean_packat_parser.py)
+GR_ADD_TEST(qa_enocean_packet_parser ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_enocean_packet_parser.py)
+GR_ADD_TEST(qa_enocean_packet_test_generator ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_enocean_packet_test_generator.py)

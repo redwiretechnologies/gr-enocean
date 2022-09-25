@@ -15,13 +15,11 @@
  */
 
 
-
- static const char *__doc_gr_enocean_enocean_tag_header_to_pdu = R"doc()doc";
-
-
- static const char *__doc_gr_enocean_enocean_tag_header_to_pdu_enocean_tag_header_to_pdu = R"doc()doc";
+static const char* __doc_gr_enocean_enocean_tag_header_to_pdu = R"doc()doc";
 
 
- static const char *__doc_gr_enocean_enocean_tag_header_to_pdu_make = R"doc()doc";
+static const char* __doc_gr_enocean_enocean_tag_header_to_pdu_enocean_tag_header_to_pdu =
+    R"doc()doc";
 
-  
+
+static const char* __doc_gr_enocean_enocean_tag_header_to_pdu_make = R"doc()doc";

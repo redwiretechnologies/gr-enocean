@@ -8,5 +8,6 @@
 
 install(FILES
     enocean_enocean_tag_header_to_pdu.block.yml
-    enocean_encoean_packat_parser.block.yml DESTINATION share/gnuradio/grc/blocks
+    enocean_enocean_packet_parser.block.yml
+    enocean_enocean_packet_test_generator.block.yml DESTINATION share/gnuradio/grc/blocks
 )

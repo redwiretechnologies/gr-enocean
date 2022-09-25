@@ -15,13 +15,13 @@ from enocean.protocol.packet import Packet
 from enocean.protocol.constants import PACKET, RORG
 import pmt
 
-class encoean_packat_parser(gr.basic_block):
+class enocean_packet_parser(gr.basic_block):
     """
     Currently this only processes single telegram data types of the enocean data type 
     """
     def __init__(self):
         gr.basic_block.__init__(self,
-            name="encoean_packat_parser",
+            name="enocean_packet_parser",
             in_sig=None,
             out_sig=None)
         self.message_port_register_in(pmt.intern("radio_data_in"))
@@ -36,9 +36,9 @@ class encoean_packat_parser(gr.basic_block):
          
          #check that the crc is valid
          crc=crc8.calc(data[1:data.size-1])
-         print(data)
-         print(crc)
-         print(data[data.size-1])
+         #print(data)
+         #print(crc)
+         #print(data[data.size-1])
          if(crc != data[data.size-1]):
              #Bad CRC return
              print("BAD CRC on packet")

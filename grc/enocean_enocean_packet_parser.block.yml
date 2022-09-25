@@ -1,10 +1,10 @@
-id: enocean_encoean_packat_parser
-label: encoean_packat_parser
+id: enocean_enocean_packet_parser
+label: enocean_packet_parser
 category: '[enocean]'
 
 templates:
   imports: from gnuradio import enocean
-  make: enocean.encoean_packat_parser()
+  make: enocean.enocean_packet_parser()
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -16,7 +16,7 @@ parameters:
 #- id: parametername_replace_me
 #  label: FIX ME:
 #  dtype: string
-#  default: You need to fill in your grc/enocean_encoean_packat_parser.block.yaml
+#  default: You need to fill in your grc/enocean_enocean_packet_parser.block.yaml
 #- id: ...
 #  label: ...
 #  dtype: ...

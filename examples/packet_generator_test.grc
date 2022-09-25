@@ -5,13 +5,13 @@ options:
     category: '[GRC Hier Blocks]'
     cmake_opt: ''
     comment: ''
-    copyright: Toby Flynn 2022
+    copyright: '2022'
     description: ''
     gen_cmake: 'On'
     gen_linking: dynamic
     generate_options: qt_gui
     hier_block_src_path: '.:'
-    id: enocean_realtime_rx
+    id: packet_generator_test
     max_nouts: '0'
     output_language: python
     placement: (0,0)
@@ -22,7 +22,7 @@ options:
     run_options: prompt
     sizing_mode: fixed
     thread_safe_setters: ''
-    title: Not titled yet
+    title: Enocean Packet TX test
     window_size: (1000,1000)
   states:
     bus_sink: false
@@ -33,16 +33,19 @@ options:
     state: enabled
 
 blocks:
-- name: bt
-  id: variable
+- name: PacketNumber
+  id: variable_qtgui_entry
   parameters:
     comment: ''
+    gui_hint: ''
+    label: Packet_Number
+    type: int
     value: '2'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1408, 48.0]
+    coordinate: [0, 452.0]
     rotation: 0
     state: true
 - name: freq
@@ -54,10 +57,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [424, 48.0]
+    coordinate: [336, 12.0]
     rotation: 0
     state: true
-- name: fsk_deviation_hz
+- name: freq_deviation
   id: variable
   parameters:
     comment: ''
@@ -66,7 +69,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [568, 20.0]
+    coordinate: [1008, 112.0]
     rotation: 0
     state: true
 - name: samp_rate
@@ -85,36 +88,24 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 1/(samp_rate/(2*np.pi*fsk_deviation_hz))
+    value: (np.pi / 2) / sps
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1304, 72.0]
+    coordinate: [808, 116.0]
     rotation: 0
     state: true
 - name: sps
   id: variable
   parameters:
     comment: ''
-    value: int(samp_rate/(2*fsk_deviation_hz))
+    value: int(samp_rate/(2*freq_deviation))
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [848, 28.0]
-    rotation: 0
-    state: true
-- name: sqwave
-  id: variable
-  parameters:
-    comment: ''
-    value: (1,) * int(sps)
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1496, 76.0]
+    coordinate: [512, 4.0]
     rotation: 0
     state: true
 - name: blocks_message_debug_0
@@ -128,80 +119,62 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1304, 592.0]
+    coordinate: [744, 512.0]
     rotation: 0
-    state: enabled
-- name: digital_correlate_access_code_tag_xx_1
-  id: digital_correlate_access_code_tag_xx
+    state: true
+- name: blocks_var_to_msg_0
+  id: blocks_var_to_msg
   parameters:
-    access_code: '0101010101010101010100100111100'
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    tagname: SOB
-    threshold: '1'
-    type: byte
+    msgname: Packet_Select
+    target: PacketNumber
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [584, 468.0]
+    coordinate: [168, 524.0]
     rotation: 0
-    state: enabled
-- name: digital_gfsk_demod_1
-  id: digital_gfsk_demod
+    state: true
+- name: digital_gfsk_mod_0_0
+  id: digital_gfsk_mod
   parameters:
     affinity: ''
     alias: ''
+    bt: '0.9'
     comment: ''
-    freq_error: '0.0'
-    gain_mu: '0.175'
+    do_unpack: 'True'
     log: 'False'
     maxoutbuf: '0'
     minoutbuf: '0'
-    mu: '0.5'
-    omega_relative_limit: '0.005'
-    samples_per_symbol: int(sps)
-    sensitivity: (np.pi / 2) / sps
+    samples_per_symbol: '5'
+    sensitivity: (2*np.pi)/(samp_rate/freq_deviation)
     verbose: 'False'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [344, 436.0]
+    coordinate: [992, 420.0]
     rotation: 0
     state: enabled
-- name: enocean_enocean_packet_parser_0
-  id: enocean_enocean_packet_parser
-  parameters:
-    affinity: ''
-    alias: ''
-    comment: ''
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [1232, 400.0]
-    rotation: 0
-    state: true
-- name: enocean_enocean_tag_header_to_pdu_0
-  id: enocean_enocean_tag_header_to_pdu
+- name: enocean_enocean_packet_test_generator_0
+  id: enocean_enocean_packet_test_generator
   parameters:
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    tag_name: SOB
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [880, 444.0]
+    coordinate: [384, 296.0]
     rotation: 0
-    state: enabled
+    state: true
 - name: import_0
   id: import
   parameters:
@@ -212,24 +185,47 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1336, 16.0]
+    coordinate: [672, 20.0]
     rotation: 0
     state: true
-- name: import_0_0
-  id: import
+- name: pdu_pdu_to_stream_x_0
+  id: pdu_pdu_to_stream_x
   parameters:
+    affinity: ''
     alias: ''
     comment: ''
-    imports: from gnuradio import filter
+    depth: '3'
+    early_behavior: pdu.EARLY_BURST_APPEND
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: byte
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1496, 20.0]
+    coordinate: [808, 316.0]
+    rotation: 0
+    state: true
+- name: push_buuton
+  id: variable_qtgui_msg_push_button
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Packet_select
+    msgName: sendpacket
+    relBackgroundColor: default
+    relFontColor: default
+    type: int
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [0, 204.0]
     rotation: 0
     state: enabled
-- name: qtgui_freq_sink_x_0
-  id: qtgui_freq_sink_x
+- name: qtgui_time_sink_x_3
+  id: qtgui_time_sink_x
   parameters:
     affinity: ''
     alias: ''
@@ -244,51 +240,66 @@ blocks:
     alpha8: '1.0'
     alpha9: '1.0'
     autoscale: 'False'
-    average: '1.0'
     axislabels: 'True'
-    bw: samp_rate
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
+    color1: blue
+    color10: dark blue
+    color2: red
+    color3: green
+    color4: black
+    color5: cyan
+    color6: magenta
+    color7: yellow
+    color8: dark red
+    color9: dark green
     comment: ''
     ctrlpanel: 'False'
-    fc: '0'
-    fftsize: '4096'
-    freqhalf: 'True'
+    entags: 'True'
     grid: 'False'
     gui_hint: ''
-    label: Relative Gain
-    label1: ''
-    label10: ''''''
-    label2: ''''''
-    label3: ''''''
-    label4: ''''''
-    label5: ''''''
-    label6: ''''''
-    label7: ''''''
-    label8: ''''''
-    label9: ''''''
+    label1: Signal 1
+    label10: Signal 10
+    label2: Signal 2
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
     legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
     name: '""'
     nconnections: '1'
-    norm_window: 'False'
-    showports: 'False'
+    size: '64'
+    srate: samp_rate
+    stemplot: 'False'
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
     tr_chan: '0'
+    tr_delay: '0'
     tr_level: '0.0'
     tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
     tr_tag: '""'
     type: complex
-    units: dB
-    update_time: '0.02'
+    update_time: '0.10'
     width1: '1'
     width10: '1'
     width2: '1'
@@ -299,63 +310,58 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
+    ylabel: Amplitude
+    ymax: '1'
+    ymin: '-1'
+    yunit: '""'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [504, 244.0]
+    coordinate: [1256, 524.0]
     rotation: 0
-    state: enabled
-- name: rwt_source_0
-  id: rwt_source
+    state: true
+- name: rwt_sink_0
+  id: rwt_sink
   parameters:
     affinity: ''
     alias: ''
+    attenuation1: '30.0'
+    attenuation2: '30.0'
     auto_filter: 'True'
-    bandwidth: int(200e3)
+    bandwidth: 2e6
     base_addr: '0x9D000000'
-    bbdc: 'True'
-    buffer_size: '32000'
-    bypass_enable: 'False'
+    buffer_size: '840'
     comment: ''
-    correction_enable: 'True'
     escape: '0xAAAAAAAAAAAAAAAA'
     extra: ''
     filter: ''
     force_reload: 'False'
     freq: freq
-    gain_mode: fast_attack
-    manual_gain: '35.0'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    quadrature: 'True'
-    rfdc: 'True'
-    rfport1: A_BALANCED
-    rfport2: A_BALANCED
-    rx1_en: 'True'
-    rx2_en: 'False'
-    samplerate: (samp_rate)
+    rfport1: A
+    rfport2: A
+    samplerate: int(samp_rate)
+    tx1_en: 'True'
+    tx2_en: 'False'
     use_tags: 'True'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [40, 116.0]
+    coordinate: [1240, 284.0]
     rotation: 0
     state: enabled
 
 connections:
-- [digital_correlate_access_code_tag_xx_1, '0', enocean_enocean_tag_header_to_pdu_0,
-  '0']
-- [digital_gfsk_demod_1, '0', digital_correlate_access_code_tag_xx_1, '0']
-- [enocean_enocean_tag_header_to_pdu_0, packet_out, blocks_message_debug_0, print]
-- [enocean_enocean_tag_header_to_pdu_0, packet_out, enocean_enocean_packet_parser_0,
-  radio_data_in]
-- [rwt_source_0, '0', digital_gfsk_demod_1, '0']
-- [rwt_source_0, '0', qtgui_freq_sink_x_0, '0']
+- [blocks_var_to_msg_0, msgout, enocean_enocean_packet_test_generator_0, create_packet]
+- [digital_gfsk_mod_0_0, '0', qtgui_time_sink_x_3, '0']
+- [digital_gfsk_mod_0_0, '0', rwt_sink_0, '0']
+- [enocean_enocean_packet_test_generator_0, radio_data_out, blocks_message_debug_0,
+  print]
+- [enocean_enocean_packet_test_generator_0, radio_data_out, pdu_pdu_to_stream_x_0,
+  pdus]
+- [pdu_pdu_to_stream_x_0, '0', digital_gfsk_mod_0_0, '0']
+- [push_buuton, pressed, enocean_enocean_packet_test_generator_0, create_packet]
 
 metadata:
   file_format: 1

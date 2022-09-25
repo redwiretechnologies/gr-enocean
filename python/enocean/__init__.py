@@ -20,5 +20,6 @@ except ModuleNotFoundError:
     pass
 
 # import any pure python here
-from .encoean_packat_parser import encoean_packat_parser
+from .enocean_packet_parser import enocean_packet_parser
+from .enocean_packet_test_generator import enocean_packet_test_generator
 #

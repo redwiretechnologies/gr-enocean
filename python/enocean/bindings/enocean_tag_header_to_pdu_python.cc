@@ -13,8 +13,8 @@
 /* If manual edits are made, the following tags should be modified accordingly.    */
 /* BINDTOOL_GEN_AUTOMATIC(0)                                                       */
 /* BINDTOOL_USE_PYGCCXML(0)                                                        */
-/* BINDTOOL_HEADER_FILE(enocean_tag_header_to_pdu.h)                                        */
-/* BINDTOOL_HEADER_FILE_HASH(69e44a8f3862e553eaca8dbed51adc19)                     */
+/* BINDTOOL_HEADER_FILE(enocean_tag_header_to_pdu.h) */
+/* BINDTOOL_HEADER_FILE_HASH(c1539fe2c351910720035dc2199b9526)                     */
 /***********************************************************************************/
 
 #include <pybind11/complex.h>
@@ -30,34 +30,20 @@ namespace py = pybind11;
 void bind_enocean_tag_header_to_pdu(py::module& m)
 {
 
-    using enocean_tag_header_to_pdu    = gr::enocean::enocean_tag_header_to_pdu;
+    using enocean_tag_header_to_pdu = gr::enocean::enocean_tag_header_to_pdu;
 
 
-    py::class_<enocean_tag_header_to_pdu, 
+    py::class_<enocean_tag_header_to_pdu,
                gr::sync_block,
                gr::block,
                gr::basic_block,
-        std::shared_ptr<enocean_tag_header_to_pdu>>(m, "enocean_tag_header_to_pdu", D(enocean_tag_header_to_pdu))
+               std::shared_ptr<enocean_tag_header_to_pdu>>(
+        m, "enocean_tag_header_to_pdu", D(enocean_tag_header_to_pdu))
 
         .def(py::init(&enocean_tag_header_to_pdu::make),
              py::arg("tag_name"),
-           D(enocean_tag_header_to_pdu,make)
-        )
-        
-
+             D(enocean_tag_header_to_pdu, make))
 
 
         ;
-
-
-
-
 }
-
-
-
-
-
-
-
-

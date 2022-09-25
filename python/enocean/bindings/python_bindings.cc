@@ -21,7 +21,7 @@ namespace py = pybind11;
 // Please do not delete
 /**************************************/
 // BINDING_FUNCTION_PROTOTYPES(
-    void bind_enocean_tag_header_to_pdu(py::module& m);
+void bind_enocean_tag_header_to_pdu(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
 
 

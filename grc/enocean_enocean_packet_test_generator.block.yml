@@ -12,7 +12,7 @@ templates:
 #     * label (label shown in the GUI)
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #     * default
-parameters:
+#parameters:
 #- id: parametername_replace_me
 #  label: FIX ME:
 #  dtype: string
